@@ -109,6 +109,35 @@ module Crystalball
 
         pruner.pruned_groups
       end
+
+      def setup(err, out)
+        configure(err, out)
+        @configuration.load_spec_files
+
+        # Since prediction compacting is disabled we need to remove filtering
+        # in cases like './spec/foo.rb ./spec/foo.rb[1:1:2]'
+        each_file_without_id do |file|
+          path = ::RSpec::Core::Metadata.relative_path(File.expand_path(file))
+          @configuration.filter_manager.inclusions[:ids].delete(path)
+        end
+
+        @world.announce_filters
+      end
+
+      def configure(err, out)
+        @configuration.error_stream = err
+        @configuration.output_stream = out if @configuration.output_stream == $stdout
+        @options.configure(@configuration)
+      end
+
+      private
+
+      def each_file_without_id(&block)
+        @options
+          .options[:files_or_directories_to_run]
+          .select { |f| ::RSpec::Core::Example.parse_id(f).last.nil? }
+          .each(&block)
+      end
     end
   end
 end
