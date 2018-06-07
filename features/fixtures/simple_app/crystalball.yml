@@ -4,11 +4,11 @@ execution_map_path: 'execution_map.yml'
 examples_limit: 1
 #
 # Custom prediction builder class to use. Default: 'Crystalball::RSpec::StandardPredictionBuilder'
-# prediction_builder_class_name: 'Crystalball::RSpec::StandardPredictionBuilder'
+prediction_builder_class_name: 'PredictionBuilder'
 # #
 # Set of requires. Usually used to require custom predictor class file. Default: []
-# requires:
-  # - './standard_prediction_builder'
+requires:
+  - './prediction_builder'
 #
 # Custom map expiration period in seconds. 0 = Disable expiration check. Default: 86400 (1 day)
 # map_expiration_period : 0
