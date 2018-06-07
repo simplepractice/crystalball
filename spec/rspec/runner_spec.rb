@@ -177,5 +177,14 @@ describe Crystalball::RSpec::Runner do
         setup
       end
     end
+
+    context 'when a dir is passed' do
+      let(:files) { %w[./spec/ ./spec/bar_spec.rb[1:1]] }
+
+      it 'does not remove the filters' do
+        expect(inclusions[:ids]).not_to receive(:delete)
+        setup
+      end
+    end
   end
 end

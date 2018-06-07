@@ -135,7 +135,7 @@ module Crystalball
       def each_file_without_id(&block)
         @options
           .options[:files_or_directories_to_run]
-          .select { |f| ::RSpec::Core::Example.parse_id(f).last.nil? }
+          .select { |f| !File.directory?(f) && ::RSpec::Core::Example.parse_id(f).last.nil? }
           .each(&block)
       end
     end
