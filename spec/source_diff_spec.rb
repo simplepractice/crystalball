@@ -6,11 +6,12 @@ describe Crystalball::SourceDiff do
   subject(:source_diff) { described_class.new(diff) }
   let(:diff) { Git::Diff.new(repo) }
   let(:repo) { Crystalball::GitRepo.new('.') }
-  let(:diff_file1) { Git::Diff::DiffFile.new(repo, path: 'file1.rb') }
-  let(:diff_file2) { Git::Diff::DiffFile.new(repo, path: 'file2.rb') }
+  let(:diff_file1) { Git::Diff::DiffFile.new(repo, path: 'file1.rb', patch: '+"s"') }
+  let(:diff_file2) { Git::Diff::DiffFile.new(repo, path: 'file2.rb', patch: '+"r"') }
+  let(:diff_file3) { Git::Diff::DiffFile.new(repo, path: 'file2.rb', patch: '') }
 
   before do
-    allow(diff).to receive(:each).with(no_args).and_yield(diff_file1).and_yield(diff_file2)
+    allow(diff).to receive(:each).with(no_args).and_yield(diff_file1).and_yield(diff_file2).and_yield(diff_file3)
   end
 
   describe '#each' do
